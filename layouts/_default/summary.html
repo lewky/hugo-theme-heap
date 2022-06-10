@@ -33,7 +33,13 @@
 
         {{- with .Site.Params.dateFormat | default "2006-01-02" | .PublishDate.Format -}}
             &nbsp;<span class="post-publish">
-                {{- printf `<time datetime="%v">%v</time>` . . | dict "Date" | T "publishedOnDate" | safeHTML -}}
+                {{- printf `<time datetime="%v">%v</time>` . . | dict "Date" | T "publishedOnDate" | safeHTML -}}, 
+            </span>
+        {{- end -}}
+
+        {{- with .Site.Params.dateFormat | default "2006-01-02" | .Lastmod.Format -}}
+            &nbsp;<span class="post-publish">
+                {{- printf `<time datetime="%v">%v</time>` . . | dict "Date" | T "updatedOnDate" | safeHTML -}}, 
             </span>
         {{- end -}}
 
