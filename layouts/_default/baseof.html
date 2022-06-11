@@ -27,10 +27,12 @@
             {{- partial "header.html" . -}}
             <main class="main">
                 <div class="container">
+					{{ block "main" . }}{{ end }}
                     {{- block "content" . }}{{ end -}}
                 </div>
             </main>
             {{- partial "footer.html" . -}}
+			{{ block "footer" . }}{{ end }}
         </div>
 
         <div id="fixed-buttons">
@@ -44,6 +46,21 @@
                 <i class="fas fa-comment fa-fw"></i>
             </a>
         </div>
+
+		{{- if .Site.Params.footer.lamuleimu -}}
+		<div class="sidebar_wo">
+		  <div id="leimu">
+			<img src="{{ .Site.Params.cdnPrefix }}/images/b2t/leimuA.png" alt="雷姆" 
+			onmouseover="this.src='{{ .Site.Params.cdnPrefix }}/images/b2t/leimuB.png'" 
+			onmouseout="this.src='{{ .Site.Params.cdnPrefix }}/images/b2t/leimuA.png'" title="回到顶部">
+		  </div>
+		  <div class="sidebar_wo" id="lamu">
+			<img src="{{ .Site.Params.cdnPrefix }}/images/b2t/lamuA.png" alt="雷姆" 
+			onmouseover="this.src='{{ .Site.Params.cdnPrefix }}/images/b2t/lamuB.png'" 
+			onmouseout="this.src='{{ .Site.Params.cdnPrefix }}/images/b2t/lamuA.png'" title="回到底部">
+		  </div>
+		</div>
+		{{- end -}}
 
         {{- /* Load JavaScript scripts and CSS */ -}}
         {{- partial "assets.html" . -}}
