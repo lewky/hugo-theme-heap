@@ -4,6 +4,14 @@
     {{- $src = .RelPermalink -}}
 {{- end -}}
 
+{{- /* use image cdn */ -}}
+{{- $cdnPrefix := .Site.Params.cdnPrefix -}}
+{{- if strings.HasPrefix $src "/" -}}
+	{{- $imgcdn := "$cdnPrefix/placeholder" -}}
+	{{- $imgcdn = replace $imgcdn "$cdnPrefix" $cdnPrefix -}}
+	{{- $src = replace $imgcdn "/placeholder" $src -}}
+{{ end }}
+
 {{- $small := .SrcSmall | default $src -}}
 {{- with dict "Path" .SrcSmall "Resources" .Resources | partial "function/resource.html" -}}
     {{- $small = .RelPermalink -}}
@@ -21,8 +29,8 @@
         <img
             class="lazyload{{ with .Class }} {{ . }}{{ end }}"
             src="{{ $loading.RelPermalink }}"
-            data-src="{{ .Src | safeURL }}"
-            data-srcset="{{ $small | safeURL }}, {{ .Src | safeURL }} 1.5x, {{ $large | safeURL }} 2x"
+            data-src="{{ $src | safeURL }}"
+            data-srcset="{{ $small | safeURL }}, {{ $src | safeURL }} 1.5x, {{ $large | safeURL }} 2x"
             data-sizes="auto"
             alt="{{ $alt }}"{{ with .Height }} height="{{ . }}"{{ end }}{{ with .Width }} width="{{ . }}"{{ end }} />
     </a>
@@ -30,8 +38,8 @@
     <img
         class="lazyload{{ with .Class }} {{ . }}{{ end }}"
         src="{{ $loading.RelPermalink }}"
-        data-src="{{ .Src | safeURL }}"
-        data-srcset="{{ $small | safeURL }}, {{ .Src | safeURL }} 1.5x, {{ $large | safeURL }} 2x"
+        data-src="{{ $src | safeURL }}"
+        data-srcset="{{ $small | safeURL }}, {{ $src | safeURL }} 1.5x, {{ $large | safeURL }} 2x"
         data-sizes="auto"
         alt="{{ $alt }}"
         title="{{ .Title | default $alt }}"{{ with .Height }} height="{{ . }}"{{ end }}{{ with .Width }} width="{{ . }}"{{ end }} />
