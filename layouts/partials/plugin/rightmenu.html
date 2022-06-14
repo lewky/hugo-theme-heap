@@ -1,0 +1,45 @@
+{{- $rightmenu := .Site.Params.rightmenu -}}
+{{- $cdn := .Site.Params.cdnPrefix -}}
+{{- if $rightmenu.enable -}}
+   	<div class="GalMenu GalDropDown">
+	      <div class="circle" id="gal">
+	        <div class="ring">
+			{{- range $item := $rightmenu.layout -}}
+			{{- $defaultURL := "/" -}}
+			{{- $defaultName := "Home" -}}
+			{{- $defaultImage := "/images/rightmenu/retro.png" -}}
+	          <a href="{{- $item.url | default $defaultURL -}}" 
+			  target="_blank" 
+			{{- $itemImage := $item.image | default $defaultImage -}}
+			{{- if strings.HasPrefix $item.image "http" -}}
+			  style="background-image:url({{- $itemImage -}});" 
+			{{- else if strings.HasPrefix $item.image "/" -}}
+			  style="background-image:url({{- $cdn -}}{{- $itemImage -}});" 
+			{{- else -}}
+			  style="background-image:url({{- $itemImage -}});" 
+			{{- end -}}
+			  class="menuItem">{{- $item.name | default $defaultName -}}</a>
+			{{- end -}}
+			</div>
+			{{- if $rightmenu.audio -}}
+				<audio id="audio" src="/audio/niconiconi.mp3"></audio>
+	        {{- end -}}
+		  </div>
+	</div>
+	<script type="text/javascript">
+	var items = document.querySelectorAll('.menuItem'); 
+	for (var i = 0, l = items.length; i < l; i++) {
+        items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+        items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+      }
+	</script>
+	<link rel="stylesheet" href="/css/GalMenu.css">
+	<script type="text/javascript" src="/js/GalMenu.js"></script>
+	<script type="text/javascript">
+    	$(document).ready(function() {
+        $('body').GalMenu({
+          'menu': 'GalDropDown'
+        })
+      });
+	</script>
+{{- end -}}
