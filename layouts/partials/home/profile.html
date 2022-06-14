@@ -12,9 +12,16 @@
                 {{- with .Page -}}
                     {{- $url = .RelPermalink -}}
                 {{- end -}}
-                <a href="{{ $url }}"{{ with .Title | default .Name }} title="{{ . }}"{{ end }}{{ if (urls.Parse $url).Host }} rel="noopener noreffer" target="_blank"{{ end }}>
-                    {{- dict "Src" $avatar | partial "plugin/image.html" -}}
-                </a>
+				{{- if $profile.avatarPluginURL -}}
+					<img class="site-avatar-plug-bilibili" onerror="this.src='{{ $profile.avatarPluginURL }}'" />
+					<a href="javascript:void(0);"{{ with .Title | default .Name }} title="Please click me~~"{{ end }}{{ if (urls.Parse $url).Host }} rel="noopener noreffer" target="_blank"{{ end }}>
+						{{- dict "Src" $avatar "Title" "Please click me~~" | partial "plugin/image.html" -}}
+					</a>
+			    {{- else -}}
+					<a href="{{ $url }}"{{ with .Title | default .Name }} title="{{ . }}"{{ end }}{{ if (urls.Parse $url).Host }} rel="noopener noreffer" target="_blank"{{ end }}>
+						{{- dict "Src" $avatar | partial "plugin/image.html" -}}
+					</a>
+			    {{- end -}}
             {{- else -}}
                 {{- dict "Src" $avatar | partial "plugin/image.html" -}}
             {{- end -}}
